@@ -1,0 +1,21 @@
+CC=c++
+SRC_DIR=src
+OBJ_DIR=obj
+INC_DIR=inc
+BIN_DIR=bin
+LIB_DIR=lib
+
+all:spSendMail
+
+spSendMail:spSendMail.o main.o
+	$(CC) -g  $(OBJ_DIR)/base64.o $(OBJ_DIR)/main.o $(OBJ_DIR)/spSendMail.o -o $(BIN_DIR)/spSendMail
+
+#base64.o:
+#	cc -c $(SRC_DIR)/base64.cpp -o $(OBJ_DIR)/base64.o -I$(INC_DIR)
+
+spSendMail.o:
+	$(CC) -c -g $(SRC_DIR)/spSendMail.cpp -o $(OBJ_DIR)/spSendMail.o -I$(INC_DIR)
+
+main.o:
+	$(CC) -c -g  $(SRC_DIR)/main.cpp -o $(OBJ_DIR)/main.o -I$(INC_DIR)
+

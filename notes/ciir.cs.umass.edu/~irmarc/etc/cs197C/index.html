@@ -1,0 +1,176 @@
+<html>
+  <head>
+    <title>CS197C Home Page</title>
+    <script src="js/jquery-1.3.2.min.js"></script>
+    <script src="js/ui/ui.core.js"></script>
+    <script src="js/ui/ui.accordion.js"></script>
+    <script src="js/ui/ui.tabs.js"></script>
+    <link rel="stylesheet" href="js/themes/custom-theme/jquery-ui-1.7.2.custom.css" type="text/css" media="screen">  
+    <link rel="stylesheet" href="js/struct.css" type="text/css" media="screen">
+    <script>
+      $(document).ready(function(){
+      $( "#outer" ).tabs();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>CS197C - Programming in C++ (Fall 2011)</h1>
+    <div id="contents">
+      <div id="outer">
+	<ul>
+	  <li><a href="index.html#info"><span>Info</span></a></li>
+	  <li><a href="index.html#news"><span>News</span></a></li>
+	  <li><a href="index.html#syllabus"><span>Syllabus</span></a></li>
+	  <li><a href="index.html#policies"><span>Policies</span></a></li>
+	</ul>
+	<div id="news">
+	  <h3>Announcements</h3>
+	  I have been remiss in the past about updating the site. I'm hoping to remedy that this year, but know it's a habit-change in progress.
+	  <UL>
+	    <LI> Sept 5, 2011 : Updated website contents for F11 course.</LI>
+	    <LI> Sept 14, 2011: Added Lecture 2 and Q2 to the site.</LI>
+	  </UL>
+	  <hr>
+	  <h3>Q & A</h3>
+	  I will place salient questions and answers here.
+	</div>
+	<div id="syllabus">
+	  <h3>Schedule</h3>
+	  <table border="1">
+	    <tr>
+	      <th width="100px">Date</th>
+	      <th width="275px">Topic</th>
+	      <th width="210px">Programming Assignment</th>
+	      <th>Quiz</th>
+	      <th>Examples</th>
+	    </tr>
+	    <tr>
+	      <td>9/7/2011</td>
+	      <td><a href="lectures/Lecture1.pdf">C/C++ basics, tools, Makefiles,<br>C data types, ADTs</a></td>
+	      <td>P1 <a href="assignments/P1/P1.tar.gz">[tar]</a> <a href="assignments/P1/P1.zip">[zip]<a/> <br>(due in Spark 9/21/2011)</td>
+	      <td><a href="quizzes/Q1/Q1.pdf">Q1</a><br>Submit to Spark by 9/9/2011</td>
+	      <td>&nbsp;</td>
+
+	    </tr>
+	    <tr>
+	      <td>9/14/2011</td>
+	      <td><a href="lectures/Lecture2.pdf">C libraries</a></td>
+	      <td>&nbsp;</td>
+	      <td><a href="quizzes/Q2/Q2.pdf">Q2</a><br>Submit to Spark by 9/16/2011</td>
+	      <td><a href="examples/Clib/Clib.zip">C library</a></td>
+	    </tr>
+	    <tr>
+	      <td>9/21/2011</td>
+	      <td><a href="lectures/Lecture3.pdf">Classes in C++, C++ I/O</a></td>
+	      <td>P2 <a href="assignments/P2/P2.tar.gz">[tar]</a> <a href="assignments/P2/P2.zip">[zip]<a/>
+		  <a href="assignments/P2/solution/LLImpl.zip">[soln]</a>
+			   <br>(due in Spark 10/5/2011)</td>
+	      <td><a href="quizzes/Q3/Q3.pdf">Q3</a><br>Submit to Spark by 9/23/2011</td>
+	      <td><a href="examples/classes/classes.zip">Classes</a>&nbsp;
+		<a href="examples/CppIO/CppIO.zip">CppIO</a></td>
+	    </tr>
+	    <tr>
+	      <td>9/28/2011</td>
+	      <td><a href="lectures/Lecture4.pdf">Memory & Pointers</a></td>
+	      <td>&nbsp;</td>
+	      <td>&nbsp;</td>
+	      <td><a href="examples/pointers/pointers.zip">pointers</a>&nbsp;
+		<a href="examples/soundex/soundex.zip">soundex</a></td>
+	    </tr>
+	    <tr>
+	      <td>10/5/2011</td>
+	      <td><a href="lectures/Lecture5.pdf">More Pointers</a></td>
+	      <td>P3 <a href="assignments/P3/P3.tar.gz">[tar]</a> <a href="assignments/P3/P3.zip">[zip]<a/> <br>(due in Spark 10/19/2011)</td>
+	      <td><a href="quizzes/Q4/Q4.pdf">Q4</a><br>Submit to Spark by 10/7/2011</td>
+	      <td>&nbsp;</td>
+	    </tr>
+	    <tr>
+	      <td>10/12/2011</td>
+	      <td><a href="lectures/Lecture6.pdf">Templates and the STL</a></td>
+	      <td>&nbsp;</td>
+	      <td><a href="quizzes/Q5/Q5.pdf">Q5</a><br>Submit to Spark by 10/14/2011</td>
+	      <td><a href="examples/templates/templates.zip">templates</a></td>
+	    </tr>
+	    <tr>
+	      <td>10/19/2011</td>
+	      <td><a href="lectures/Lecture7.pdf">Reflection, Exceptions, C++11</a></td>
+	      <td>P4 <a href="http://ciir.cs.umass.edu/~irmarc/etc/cs197C/assignments/P4/P4.tar.gz">[tar]</a> <a href="assignments/P4/P4.zip">[zip]<a/> <br>(due in Spark 11/2/2011)</td>
+	      <td><a href="quizzes/Q6/Q6.pdf">Q6</a><br>Submit to Spark by 10/21/2011</td>
+	      <td>&nbsp;</td>
+	    </tr>
+	    <tr>
+	      <td>10/26/2011</td>
+	      <td colspan="4">NO CLASS</td>
+	    </tr>
+	    <tr>
+	      <td>11/2/2011</td>
+	      <td>Advanced Topics: More C++11, Boost and OpenGL</td>
+	      <td>&nbsp;</td>
+	      <td>&nbsp;</td>
+	      <td><a href="examples/boost/exceptions.cpp">boost</a></td>
+	    </tr>
+	  </table>
+	</div>
+	<div id="policies">
+	  <h3>Submission Policy</h3>
+	  Concerning submission of homework and quizzes:
+	  <ol>
+	    <li><b>THERE ARE NO LATE DAYS FOR THIS CLASS.</b> There are many, many of you, and one of me. You have more than enough time to complete the given assignments in the time allocated (2 weeks). I will also make an earnest attempt to make the assignments available to you ahead of time, but I reserve the right to edit the assignment without warning until the day it's officially assigned. These will mostly be minor changes, but still, be aware. In terms of the quizzes, they should not take you more than 20-30 minutes, tops. You have 2 days to do them. Don't turn them in late.</li>
+	    <li><b>YOUR SUMITTED CODE MUST COMPILE ON THE EDLAB LINUX MACHINES.</b> If the code does not compile without modification on one of these machines, you will receive a zero for the assignment.</li>
+	    <li><b>I WILL NOT PROVIDE HELP IN SETTING UP ANY DEVELOPMENT ENVIRONMENTS.</b> You can ace this class writing your code in Notepad (Windows), TextEdit (Mac OS X), or Emacs/Vim (Linux). In fact, if you prove to me that you did, you will receive extra credit because that's hardcore and awesome. Setting up Visual Studio, Xcode, NetBeans, or Eclipse is a waste of your time. I'm not saying you can't use them, but I <em>am</em> saying that I will not help you set them up since you definitely don't need them to pass.
+	    <li><b>DO NOT EMAIL YOUR CODE TO ME OR THE GRADER(S).</b> All homework and quiz submissions will be made to the <a href="http://spark.oit.umass.edu">Spark</a> website. This will allow us to securely and efficiently provide you with grades as soon as possible, as well as avoid any confusion concerning submission times. Both assignments and quizzes will be available from this site (see Syllabus). In the case of programs, you will provide the source code files and the Makefile necessary to build the program from your source. In the case of quizzes, just submit a plain text file containing the answers to the questions.</li>
+	  </ol>	  
+	  <hr>
+	  <h3>Classroom Behavior</h3>
+	  I tend to be a bit flippant in class - I probably do this in order to loosen the atmosphere and hopefully make
+	  a rather dry topic a little less boring. Although I have no problem with in-class or banter in communication (i.e. email),
+	  please remember to be professional and tasteful. Should I find your behavior overly familiar, I will inform you once that you
+	  need to watch yourself and maintain some amount of distance. If you continue to behave in a way that I find unacceptable, I
+	  will escalate the matter to the undergraduate program director, which most likely will then go to the department chair and/or the
+	  dean of students.
+	  <hr>
+	  <h3>Academic Dishonesty</h3>
+	  The official university policy on academic dishonesty can be found 
+	  <a href="http://www.umass.edu/dean_students/codeofconduct/acadhonesty">here</a>. If you are found cheating (using someone else's work as your own, violating the aforementioned policies, or collaborating without permission), 
+	  you will be disciplined pursuant to the university policy on academic dishonesty. 
+	  In terms of my response in class, the offending individual(s) will receive a zero for the given assignment, 
+	  and their participation contribution in the class is automatically reduced to zero with no negotiation possible.
+	</div>
+	<div id="info">
+	  <b>Instructor:</b> <a href="http://www.cs.umass.edu/~irmarc">Marc Cartright<a> (irmarc AT cs DOT umass PERIOD edu)
+	      <br><b>Graders:</b><ul><li>Nicolas Ioannou</li><li>Jie Bing</li></ul>
+	      <br>
+	      <b>Lecture Hours:</b> 3:35 - 5:00 p.m. on Wednesdays in CMPSCI 142.  This course will span eight lectures starting September 7, 2011. Please make sure that you attend this first lecture.
+	      <br><br>
+	      <b>Office Hours:</b> Thursdays, 10am-12pm, currently in room 366.
+	      <hr>
+	      <h3>Online Resources:</h3>
+	      <ul>
+		<li> <a href="http://www.cs.umass.edu/~emery/classes/cmpsci377-fall2005/papers/intro_to_c++.pdf">Mark Corner's (and edited by Emery Berger) intro to C++ for Java programmers.</a>
+		<li> <a href="http://www.parashift.com/c++-faq-lite/">C++ FAQ</a> (this is a really great document)</li>
+		<li> <a href="http://www.research.att.com/~bs/C++.html">Stroustrup's page on C++</a> </li>
+		<li> <a href="http://www.cppreference.com">A great C++ reference - even covers C++11</a></li>
+		<li> <a href="http://www.cplusplus.com">An online C++ reference that has loads of examples for the STL</a></li>
+		<li><a href="http://www.delorie.com/gnu/docs/gdb/gdb_toc.html">GDB Documentation</a></li>
+		<li><a href="http://refcards.com/docs/gildeas/gnu-emacs/emacs-refcard-a4.pdf">Emacs Reference Card (PDF)</a></li>
+		<li><a href="http://tnerual.eriogerg.free.fr/vimqrc.pdf">Vim Reference Card (PDF)</a></li>
+		<li><a href="http://comp.chem.umn.edu/Chem8021/unix_ref_card.pdf">U. of Minnesota Unix Quick Reference Card (PDF)</a> (looks like a good intro)</li>
+		<li><a href="http://www.gnu.org/software/make/manual/make.html">GNU's Make Manual</a></li>
+	      </ul>
+	      <hr>
+	      <h3>Textbooks:</h3>
+	      <em>No textbook is required for the course.</em> Computer Science textbooks get expensive quickly, and I believe about 90% of the most common details can be learned from online resources. However far be it for me to deny someone a book recommendation if they eagerly want one. Below are a few books I recommend. While I do not think you need a book to learn C++, having one as a reference is very convenient.
+	      <br><br> 
+	      <i>Recommended Books:</i>
+	      <LI><a href="http://www.amazon.com/gp/product/013919424X"> "C++ for Java Programmers" </a> by Mark Allen Weiss, Pearson 
+		Prentice Hall, 2004. </LI>
+	      <LI><a href="http://www.amazon.com/Practical-C-Robert-W-McGregor/dp/0789721449">"Practical C++" </a> by Robert W. McGregor </LI>
+	      <LI><a href="http://www.amazon.com/Primer-3rd-Stanley-B-Lippman/dp/0201824701">"C++ Primer" </a> by Stanley B. Lippman (I have this one. It's a hefty thing, but I really like it)</LI> 
+	</div>
+      </div>
+</div>
+    <i> Note : The template and a lot of material for this course page
+      (including lectures and some homeworks) is borrowed from the course
+      pages of Mark Smucker, Ed Walters and Nilanjan Banerjee. </i> 
+  </body>
+</html>

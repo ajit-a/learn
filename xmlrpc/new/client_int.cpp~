@@ -1,0 +1,108 @@
+#include<iostream>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<strings.h>
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <iostream>
+#include <cstring>
+#include<cstdio>
+
+#include<xmlrpc-c/client.hpp>
+#include <xmlrpc-c/client_transport.hpp>
+
+#include<XmlRpcCpp.h>
+
+using namespace std;
+
+int sendRespToEServer()
+{
+	int iStatus = 1;
+	string rpc_emethod_name("call_fun");
+	int rpc_eserver_port = 8002;
+	string rpc_eserver_ip("127.0.0.1");
+
+	int sh_fd = -1;
+	int rc = -1;
+
+	sh_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if(sh_fd == -1)
+    	{
+        	perror("sh_fd = socket error:");
+	        return 1000;
+    	}
+
+	printf("\n sendRespToEServer IP : ajit \n");
+	
+	struct sockaddr_in ss;
+	memset((void*)&ss, 0, sizeof(struct sockaddr_in));
+	ss.sin_addr.s_addr = inet_addr("127.0.0.1");
+	ss.sin_port=htons(rpc_eserver_port);
+	ss.sin_family=AF_INET;
+
+	rc = connect(sh_fd, (const sockaddr*)&ss, sizeof(ss)); 
+	if (rc == -1)
+    	{
+        	perror("Unable to connect");
+	        rc = close(sh_fd);
+        	return 1000;
+    	}
+
+	xmlrpc_c::clientXmlTransport_pstream rpc_objTransport(xmlrpc_c::clientXmlTransport_pstream::constrOpt().fd(sh_fd));
+	xmlrpc_c::client_xml rpc_objClient(&rpc_objTransport);
+	xmlrpc_c::carriageParm_pstream rpc_objCarriageParm;
+	xmlrpc_c::paramList rpc_params;
+
+	rpc_params.add(xmlrpc_c::value_int(5));
+	rpc_params.add(xmlrpc_c::value_int(8));
+
+	/* Send Message to Client */
+	xmlrpc_c::rpcPtr rpc_objRpcPtr(rpc_emethod_name, rpc_params);
+	xmlrpc_c::value rpc_result;
+
+	#define SH_CALL_TIMEOUT 700
+
+	try
+	{
+        	rpc_objRpcPtr->call(&rpc_objClient, &rpc_objCarriageParm);
+
+	        if (rpc_objRpcPtr->isSuccessful() == true)
+        	{
+			rpc_result = rpc_objRpcPtr->getResult();
+		        iStatus = xmlrpc_c::value_int(rpc_result);
+		        printf("\nsendRespToEServer: EServer call returned:%d \n", iStatus);
+        	}
+	        else
+        	{
+		        printf("\nsendRespToEServer: Error EServer call failed for event:ASA\n");
+        	}
+	}
+	catch (std::exception &ex) 
+	{
+		printf("\n sendRespToEServer: Error EServer call failed for event:ASA - Exception:ASA\n");
+
+	}
+
+	rc = shutdown(sh_fd,SHUT_RDWR);
+	rc = close(sh_fd);
+        if (rc == -1) 
+	{
+		perror("shutdown(sh_fd");
+        }
+	return iStatus;
+}
+
+int main()
+{
+	cout<<"Calling function..\n";
+	sendRespToEServer();
+	cout<<"Returned to main..\n";
+}
+
+//XMLRPC_CLIENT_LIBS=-L$(XMLRPC_LIB_DIR) -lxmlrpc_server_pstream++ -lxmlrpc_server++ -lxmlrpc_server  -lxmlrpc_client++ -lxmlrpc_client -lxmlrpc++ -lxmlrpc -lxmlrpc_util -lxmlrpc_xmlparse -lxmlrpc_xmltok -L/usr/lib -lcurl -L/usr/ssl/lib -lssl -lcrypto -ldl -lz -lxmlrpc_packetsocket
+//XMLRPC_SERVER_LIBS=-L$(XMLRPC_LIB_DIR) -lxmlrpc_server_pstream++ -lxmlrpc_server++ -lxmlrpc_server  -lxmlrpc_server++ -lxmlrpc_server -lxmlrpc_client++ -lxmlrpc_client -lxmlrpc++ -lxmlrpc -lxmlrpc_util -lxmlrpc_xmlparse -lxmlrpc_xmltok -L/usr/lib -lcurl -L/usr/ssl/lib -lssl -lcrypto -ldl -lz -lxmlrpc_packetsocket
+
+//g++ client.cpp -L/usr/local/lib/ -lxmlrpc_client++ -lxmlrpc_client -lxmlrpc_server_pstream++ -lxmlrpc_server++ -lxmlrpc_server  -lxmlrpc++ -lxmlrpc -lxmlrpc_util -lxmlrpc_xmlparse -lxmlrpc_xmltok -lcurl   -lxmlrpc_packetsocket -o client
+//g++ client.cpp -L/usr/local/lib/ -lxmlrpc_client++ -lxmlrpc_client -lxmlrpc_server_pstream++ -lxmlrpc_server++ -lxmlrpc_server  -lxmlrpc++ -lxmlrpc -lxmlrpc_util -lxmlrpc_xmlparse -lxmlrpc_xmltok -lcurl   -lxmlrpc_packetsocket -o client

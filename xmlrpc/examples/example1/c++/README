@@ -1,0 +1,49 @@
+Example 1: Integer Addition
+
+Description:
+This example contains a client and a server that communicate via XML-RPC.
+The client takes as command-line parameters the address of the server (in 
+the form host:port), as well as two integers.  The client executes the 
+"server.add" RPC on the server, passing the two strings as parameters.
+Normally, these strings would be converted to integers and validated by 
+the client, but this example is designed to demonstrate exception 
+handling in XML-RPC.  If the server cannot convert the two strings to 
+integers, it throws an exception, which is caught by the client.  If 
+the two integers are valid, the server adds them and returns the sum 
+as the return value of the RPC.
+
+XML-RPC Libraries:
+This example uses the xmlrpc-c library: xmlrpc-c.sourceforge.net.
+NOTE: The C++ XML-RPC libraries are currently only installed on ccc1, so that
+is the only machine that can successfully build the C++ example.
+
+Building Example 1:
+To build the example, use the build.sh script.
+
+Ex: ./build.sh or sh build.sh.
+
+If you implement your assignments in C++, you should modify the Makefile from 
+this example to build your assignments.  There are many libraries that are 
+required to to build a C++ program that uses this C++ MXL-RPC library, and the 
+order of the libraries matters.  It would be easiest to modify this Makefile 
+for your projects.
+
+Executing Example 1:
+Use the  start_client.sh and start_server.sh scripts.  Currently the C++ 
+examples will only execute on ccc1.
+
+Ex: To start the server on port 9382
+./start_server.sh 9382
+
+Ex: To execute the server.add RPC on the server started above, adding 2+2
+./start_client.sh ccc1.wpi.edu:9382 2 2
+
+You can test out the exception handling by providing invalid input.
+Ex: ./start_client.sh ccc1.wpi.edu:9382 2 A
+
+The server can be shutdown via XML-RPC by using the following command:
+./start_client.sh ccc1.wpi.edu:9382 shutdown
+
+One of the best advantages of XML-RPC is that it is language-independent.
+Try using the C++ client with the Java server or vice versa.
+

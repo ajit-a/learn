@@ -1,0 +1,11 @@
+asnprintf.lo: asnprintf.c ../config.h vasnprintf.h \
+ /usr/lib/gcc/i686-redhat-linux/4.5.1/include/stdarg.h \
+ /usr/lib/gcc/i686-redhat-linux/4.5.1/include/stddef.h
+
+../config.h:
+
+vasnprintf.h:
+
+/usr/lib/gcc/i686-redhat-linux/4.5.1/include/stdarg.h:
+
+/usr/lib/gcc/i686-redhat-linux/4.5.1/include/stddef.h:

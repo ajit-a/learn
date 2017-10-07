@@ -1,0 +1,124 @@
+#include <sys/select.h>
+#include<iostream>
+#include<xmlrpc-c/registry.hpp>
+
+#include <xmlrpc-c/server_pstream.hpp>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include<stdlib.h>
+#include<stdio.h>
+
+#include <signal.h>
+#include <unistd.h>
+#include "common.h"
+using namespace std;
+
+/*class sum:public xmlrpc_c::method
+{
+	public:
+		sum()
+		{
+			this->_signature = "i:ii";	
+		}
+		void execute(xmlrpc_c::paramList const& paramList, xmlrpc_c::value * const retvalP) 
+		{
+			int const addend(paramList.getInt(0)); 
+			int const adder(paramList.getInt(1)); 
+			paramList.verifyEnd(2); 
+			*retvalP = xmlrpc_c::value_int(addend + adder);  
+		}
+};*/
+class sum:public xmlrpc_c::method
+{
+	public:
+		sum()
+		{
+			//this->_signature = "i:ii";	
+		}
+		void execute(xmlrpc_c::paramList const& paramList, xmlrpc_c::value * const retvalP) 
+		{
+			xmlRPCdata *tmp=NULL;
+			xmlrpc_c::value_struct rec=(xmlrpc_c::value_struct)paramList[0];
+			tmp=(xmlRPCdata*)malloc(sizeof(struct xmlRPCdata));
+			sum::retrive(rec,*tmp);
+			//*retvalP=xmlrpc_c::value_int(12);
+		}
+		void retrive(xmlrpc_c::value_struct rec,xmlRPCdata &tmp1)
+		{
+			map<string,xmlrpc_c::value>mp=map<string, xmlrpc_c::value>(rec);
+			tmp1.num1=xmlrpc_c::value_int (mp["num1"]);
+			tmp1.num2=xmlrpc_c::value_int (mp["num2"]);
+			cout<<"Num1 is "<<tmp1.num1<<endl<<"Num2 is "<<tmp1.num2<<endl;
+		}
+};
+
+int main()
+{
+	int rc = -1;
+	int client_fd = -1;
+	int eserver_fd =-1;
+	bool clientHasDisconnected = false;
+	
+	eserver_fd=socket(AF_INET,SOCK_STREAM,0);
+  	if(eserver_fd==-1)
+	{
+		cout<<"Unable to create socket";
+		return 0;
+	}
+	struct sockaddr_in cli,ser;
+	ser.sin_addr.s_addr=INADDR_ANY;
+	ser.sin_port=htons(8002);
+	ser.sin_family=AF_INET;
+	if(bind(eserver_fd,(struct sockaddr*)&ser,sizeof(ser))<0)
+	{
+		cout<<"Bind error";
+		return 0;
+	}
+	
+
+	xmlrpc_c::registry objRegistry2;
+
+	xmlrpc_c::methodPtr const rpc_method(new sum);
+
+    /* Add method to registory */
+	objRegistry2.addMethod("call_fun", rpc_method);
+
+	listen(eserver_fd,3);
+	int c=sizeof(cli);
+	while(true)
+    	{
+        	clientHasDisconnected = false;
+	        client_fd = accept(eserver_fd, (struct sockaddr *)&cli,(socklen_t*)&c);
+        	if(client_fd == -1)
+        	{
+			perror("client_fd = accept error:");
+		        continue;
+        	}
+        	try
+        	{
+		        xmlrpc_c::serverPstreamConn  obj_pstream_Server2(xmlrpc_c::serverPstreamConn::constrOpt().registryP(&objRegistry2).socketFd(client_fd));
+
+		        obj_pstream_Server2.runOnce(&clientHasDisconnected);
+            //obj_pstream_Server2.run();
+        	}
+	        catch (exception const &e)
+        	{
+		        printf("\n Something threw an error : %s \n", e.what());
+        	}
+
+	        rc = shutdown(client_fd,SHUT_RDWR);
+        	rc = close(client_fd);
+
+	        if(rc == -1)
+        	{
+		        perror("close(client_fd");
+        	}
+	 } // End of for-loop
+
+	 return 0;
+}
+

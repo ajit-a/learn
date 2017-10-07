@@ -1,0 +1,47 @@
+Example 2: Date/Time Server
+
+Description:
+This example contains a client and a server that communicate via XML-RPC.
+The client takes as command-line parameters the address of the server (in 
+the form host:port).  The client executes the "server.getDate" RPC on the 
+server, which does not take any parameters.  The server returns the 
+current date.
+
+NOTE: The xmlrpc-c library used with these examples handles time in UTC 
+format (as it should).  For some reason, the Apache XML-RPC library handles
+time in local time format, creating an incompatibility between the two 
+libraries.  To avoid this issue, the C++ server converts times into local 
+times before sending them to the client.
+
+XML-RPC Libraries:
+This example uses the xmlrpc-c library: xmlrpc-c.sourceforge.net.
+NOTE: The C++ XML-RPC libraries are currently only installed on ccc1, so that
+is the only machine that can successfully build the C++ example.
+
+Building Example 2:
+To build the example, use the build.sh script.
+
+Ex: ./build.sh or sh build.sh.
+
+If you implement your assignments in C++, you should modify the Makefile from 
+this example to build your assignments.  There are many libraries that are 
+required to to build a C++ program that uses this C++ MXL-RPC library, and the 
+order of the libraries matters.  It would be easiest to modify this Makefile 
+for your projects.
+
+Executing Example 2:
+Use the  start_client.sh and start_server.sh scripts.  Currently the C++ 
+examples will only execute on ccc1.
+
+Ex: To start the server on port 9382
+./start_server.sh 9382
+
+Ex: To execute the server.getDate RPC on the server started above,
+./start_client.sh ccc1.wpi.edu:9382
+
+The server can be shutdown via XML-RPC by using the following command:
+./start_client.sh ccc1.wpi.edu:9382 shutdown
+
+One of the best advantages of XML-RPC is that it is language-independent.
+Try using the C++ client with the Java server or vice versa.
+

@@ -1,0 +1,4 @@
+--> In any case we will need to store current date on the machine where application is installed
+
+# Assuming a client-server architecture, get the date from network and store it. Later evertime the application is started it will compare the stored time with network time.
+# Similar to above method but store the time on server mapped to MAC and IP.

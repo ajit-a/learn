@@ -1,0 +1,1 @@
+cmd_/home/ajit/Documents/Kernel_mods/pass_param/parameter.ko := ld -r -m elf_x86_64 -T /usr/src/kernels/3.4.9-2.fc16.x86_64/scripts/module-common.lds --build-id  -o /home/ajit/Documents/Kernel_mods/pass_param/parameter.ko /home/ajit/Documents/Kernel_mods/pass_param/parameter.o /home/ajit/Documents/Kernel_mods/pass_param/parameter.mod.o

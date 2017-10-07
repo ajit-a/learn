@@ -1,0 +1,30 @@
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+class Array
+{
+public:
+    float &operator[] (unsigned i) throw (out_of_range);
+protected:
+    float data_[100];
+};
+inline float &Array::operator[] (unsigned i) throw (out_of_range)
+{
+    if (i >= 100u)
+    {
+        throw out_of_range ("Array index is out of range");
+    }
+    return data_[i];
+}
+int main()
+{
+    Array a;
+    for (unsigned i = 0; i < 100; ++i)
+    {
+        a[i] = 3.14 * i;
+    }
+    for (unsigned j = 0; j < 100; ++j)
+    {
+        cout << a[j] << '\n';
+    }
+}

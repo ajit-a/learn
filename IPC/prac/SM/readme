@@ -1,0 +1,13 @@
+http://stackoverflow.com/questions/9701757/when-to-use-pipes-vs-when-to-use-shared-memory
+
+Pipes are slow as compared to Shared memory.
+
+Essentially, pipes - whether named or anonymous - are used like message passing. Someone sends a piece of information to the recipient and the recipient can receive it. Shared memory is more like publishing data - someone puts data in shared memory and the readers (potentially many) must use synchronization e.g. via semaphores to learn about the fact that there is new data and must know how to read the memory region to find the information.
+
+With pipes the synchronization is simple and built into the pipe mechanism itself - your reads and writes will freeze and unfreeze the app when something interesting happens. With shared memory, it is easier to work asynchronously and check for new data only once in a while - but at the cost of much more complex code. Plus you can get many-to-many communication but it requires more work again. Also, due to the above, debugging of pipe-based communication is easier than debugging shared memory.
+
+A minor difference is that fifos are visible directly in the filesystem while shared memory regions need special tools like ipcs for their management in case you e.g. create a shared memory segment but your app dies and doesn't clean up after itself (same goes for semaphores and many other synchronization mechanisms which you might need to use together with shared memory).
+
+Shared memory also gives you more control over bufferring and resource use - within limits allowed by the OS it's you who decides how much memory to allocate and how to use it. With pipes, the OS controls things automatically, so once again you loose some flexibility but are relieved of much work.
+
+Summary of most important points: pipes for one-to-one communication, less coding and letting the OS handle things, shared memory for many-to-many, more manual control over things but at the cost of more work and harder debugging.

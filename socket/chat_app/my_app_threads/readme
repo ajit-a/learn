@@ -1,0 +1,7 @@
+1)The server should be able to handle multiple clients
+2)each client should be able to communicate with each other client privately
+3)any broadcast message should go to all users
+
+1)==> This will require threads to handle each client seperately
+2)==> Client should be identified by a username
+3)==> All the messages should be routed via the server

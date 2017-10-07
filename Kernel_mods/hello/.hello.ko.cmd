@@ -1,0 +1,1 @@
+cmd_/home/ajit/Documents/Kernel_mods/hello/hello.ko := ld -r -m elf_x86_64 -T /usr/src/kernels/3.4.9-2.fc16.x86_64/scripts/module-common.lds --build-id  -o /home/ajit/Documents/Kernel_mods/hello/hello.ko /home/ajit/Documents/Kernel_mods/hello/hello.o /home/ajit/Documents/Kernel_mods/hello/hello.mod.o

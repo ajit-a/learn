@@ -1,0 +1,9 @@
+wsdl2h -c -o rcx.h -t /usr/local/share/gsoap/WS/typemap.dat http://www.cs.fsu.edu/~engelen/calc.wsdl
+g++ -I/usr/local/share/gsoap/ -o client.o client.c soapC.c soapClient.c stdsoap2.cpp
+g++ soapC.cpp soapClient.cpp calcClient.c stdsoap2.cpp -I/usr/local/share/gsoap -DWITH_OPENSSL -lcrypto -lssl
+
+
+http://users.skynet.be/pascalbotte/rcx-ws-doc/gsoap.htm
+http://www.genivia.com/products/gsoap/demos/calc.html
+http://www.cs.fsu.edu/~engelen/soapdoc2.pdf
+http://www.dfki.de/~sberg/smartweb/sysgroup/gSoapDevelopment_new.html

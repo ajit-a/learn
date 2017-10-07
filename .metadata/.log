@@ -1,0 +1,26 @@
+!SESSION 2012-12-17 11:36:05.465 -----------------------------------------------
+eclipse.buildId=M20100909-0800
+java.version=1.6.0_20
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.equinox.p2.engine 4 4 2012-12-17 11:36:08.621
+!MESSAGE An error occurred while installing the items
+!SUBENTRY 1 org.eclipse.equinox.p2.engine 4 0 2012-12-17 11:36:08.621
+!MESSAGE session context was:(profile=PlatformProfile, phase=org.eclipse.equinox.internal.p2.engine.phases.Install, operand=null --> [R]javax.servlet.jsp 2.0.0.v200806031607, action=org.eclipse.equinox.internal.p2.touchpoint.eclipse.actions.InstallBundleAction).
+!SUBENTRY 1 org.eclipse.equinox.p2.touchpoint.eclipse 4 0 2012-12-17 11:36:08.621
+!MESSAGE The artifact file for osgi.bundle,javax.servlet.jsp,2.0.0.v200806031607 was not found.
+!SESSION 2013-01-10 11:37:25.931 -----------------------------------------------
+eclipse.buildId=M20100909-0800
+java.version=1.6.0_20
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.equinox.p2.engine 4 4 2013-01-10 11:37:31.763
+!MESSAGE An error occurred while installing the items
+!SUBENTRY 1 org.eclipse.equinox.p2.engine 4 0 2013-01-10 11:37:31.763
+!MESSAGE session context was:(profile=PlatformProfile, phase=org.eclipse.equinox.internal.p2.engine.phases.Install, operand=null --> [R]javax.servlet.jsp 2.0.0.v200806031607, action=org.eclipse.equinox.internal.p2.touchpoint.eclipse.actions.InstallBundleAction).
+!SUBENTRY 1 org.eclipse.equinox.p2.touchpoint.eclipse 4 0 2013-01-10 11:37:31.763
+!MESSAGE The artifact file for osgi.bundle,javax.servlet.jsp,2.0.0.v200806031607 was not found.

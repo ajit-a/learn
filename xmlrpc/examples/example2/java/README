@@ -1,0 +1,45 @@
+Example 1: Integer Addition
+
+Description:
+This example contains a client and a server that communicate via XML-RPC.
+The client takes as command-line parameters the address of the server (in
+the form host:port).  The client executes the "server.getDate" RPC on the
+server, which does not take any parameters.  The server returns the
+current date.
+
+NOTE: The xmlrpc-c library used with these examples handles time in UTC
+format (as it should).  For some reason, the Apache XML-RPC library handles
+time in local time format, creating an incompatibility between the two
+libraries.  To avoid this issue, the C++ server converts times into local
+times before sending them to the client.  You should be aware of the way 
+the Apache library handles dates if you are planning on using Java for your 
+projects.
+
+XML-RPC Libraries:
+This example uses the Apache XML-RPC library: ws.apache.org/xmlrpc.  One of 
+the Apache commons libraries, commons-codec, is also required.  Both of these 
+libraries are provided in the "lib" directory.
+
+Building Example 1:
+To build the example, use the build.sh script.
+
+Ex: ./build.sh or sh build.sh.
+
+Executing Example 1:
+Use the  start_client.sh and start_server.sh scripts.
+Note: The Java example does not seem to work on ccc1 at this time.  Any of the 
+other CCC machines should work fine.  For the rest of this document, we will 
+use ccc2.
+
+Ex: To start the server on port 9382
+./start_server.sh 9382
+
+Ex: To execute the server.getDate RPC on the server started above,
+./start_client.sh ccc2.wpi.edu:9382
+
+The server can be shutdown via XML-RPC by using the following command:
+./start_client.sh ccc2.wpi.edu:9382 shutdown
+
+One of the best advantages of XML-RPC is that it is language-independent.
+Try using the C++ client with the Java server or vice versa.
+
