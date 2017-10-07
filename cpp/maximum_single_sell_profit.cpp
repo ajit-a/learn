@@ -1,3 +1,5 @@
+//http://keithschwarz.com/interesting/
+
 #include <iostream>
 #include <vector>
 
