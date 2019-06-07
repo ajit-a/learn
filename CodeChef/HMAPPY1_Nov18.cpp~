@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <vector>
+#include <stdlib.h>
+#include<iostream>
+
+using namespace std;
+
+#define MAX 100002
+
+int arr[MAX];
+
+typedef struct pos
+{
+  int l,r;
+}stpos;
+
+stpos* lookup[2*MAX];
+int lookup_index=0;
+int N,Q,K,i;
+int _max=0;
+void ADD(int l,int r)
+{
+  stpos *s=(stpos*)malloc(sizeof(stpos));
+  s->l=l;
+  s->r=r;
+  lookup[lookup_index]=s;
+  lookup_index++;
+}
+
+int getposl(int i)
+{
+  while(arr[i]!=1)++i;
+  return i;
+}
+int getposr(int i)
+{
+  while(arr[i]!=0)++i;
+  return i-1;
+}
+void genPos()
+{
+  int l,r;
+  for(i=0;i<N;i=r+1)
+  {
+    if(arr[i]==1)
+      l=i;
+    else
+    {
+     l=getposl(i);
+    } 
+    r=getposr(l+1);
+    int diff=r-l+1;
+    if(diff<=K)
+    {
+      if(diff>_max && diff<=K)_max=diff;
+      ADD(l,r);
+    }
+  }
+}
+void MoveAndCompute(vector<bool> &v)
+{
+  bool b=v.back();
+  v.erase(v.end());
+  v.insert(v.begin(),b);
+  _max=1;
+  if(lookup[0]->l!=0 && v[0]==1)
+  {
+    stpos *s1=(stpos*)malloc(sizeof(stpos));
+    s1->r=1;
+    s1->l=1;
+    lookup[lookup_index++]=s1;
+  }
+  for(int j=0;j<lookup_index;++j)
+  {
+    if(v[lookup[j]->l]==1)
+    {
+      ++lookup[j]->r;
+      int diff=lookup[j]->r - lookup[j]->l + 1;
+      if(diff>_max)
+      {
+        _max=diff;
+      }
+    }
+    else
+    {
+      if(lookup[j]->l == N-1)
+      {
+        lookup[j]->l=0;
+        lookup[j]->r=0;
+        break;
+      }
+      ++lookup[j]->l;
+      if(lookup[j]->r == N-1)
+	lookup[j]=lookup[r];
+      else
+       ++lookup[j]->r;
+    }
+  }
+  if(_max>K)_max=K;
+}
+int main()
+{
+  scanf("%d%d%d",&N,&Q,&K);
+  for(i=0;i<N;++i)
+  {
+    scanf("%d",&arr[i]);
+  }
+  vector<bool> v(arr,arr+N);
+  genPos();
+  char c[3*MAX];
+  scanf("%s",c);
+  for(i=0;i<Q;++i)
+  {
+    if(c[i]=='?')
+    {
+      printf("%d\n",_max); 
+    }
+    else
+    {
+      MoveAndCompute(v);
+    }
+  }
+  return 0;
+}
