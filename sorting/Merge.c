@@ -7,6 +7,7 @@ int arr[100];
 /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
 void merge (int arr[], int l, int m, int r)
 {
+    printf("Called Merge for :%d,%d,%d\n",l,m,r);
     int i, j, k;
     int n1 = m - l + 1;
     int n2 =  r - m;
@@ -64,6 +65,7 @@ void merge (int arr[], int l, int m, int r)
   of arr to be sorted */
 void mergeSort (int arr[], int l, int r)
 {
+    printf("Called for :%d,%d\n",l,r);
     if (l < r)
     {
         //int m = l + (r - l) / 2; //Same as (l+r)/2, but avoids overflow for large l and h

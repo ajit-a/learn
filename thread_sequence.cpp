@@ -12,7 +12,7 @@ void *thread(void *a)
 	pthread_mutex_lock(&lock);
 	cout<<"Thread id got access :"<<pthread_self()<<endl;
 	printf("Hello\n");
-	sleep(4);
+	sleep(1);
 	pthread_mutex_unlock(&lock);
 	//printf("%d\n",d);
 }
@@ -24,7 +24,7 @@ int main()
 	for(i=1;i<=8;i++)
 	{
 		pthread_create(&id,NULL,thread,(void *)&i);
-		sleep(1);
+		//sleep(1);
 	}
 	void *ret;
 	pthread_join(id,&ret);
