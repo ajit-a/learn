@@ -1,0 +1,12 @@
+[
+{
+	"directory" : "/home/ajit_a/learn"
+	"command" : "c++ /home/ajit_a/learn/erase-remove_weak_ptr.cpp -lpthread"
+	"file" : "/home/ajit_a/learn/erase-remove_weak_ptr.cpp"
+},
+{
+	"directory" : "/home/ajit_a/learn"
+	"command" : "c++ /home/ajit_a/learn/dripper.c -lpthread"
+	"file" : "/home/ajit_a/learn/dripper.c"
+}
+]
