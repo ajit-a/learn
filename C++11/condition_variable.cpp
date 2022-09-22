@@ -5,6 +5,9 @@
 #include <condition_variable> // std::condition_variable
 #include <unistd.h>
 
+/*Similar implementation can be done using latch or barrier.
+They wait for the number of threads to come provided in initialization
+https://www.youtube.com/watch?v=ywJ4cq67-uc 55min*/
 std::mutex mtx;
 std::condition_variable cv;
 bool ready = false;
