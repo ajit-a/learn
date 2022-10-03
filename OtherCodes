@@ -1,1 +1,466 @@
 
+-bash-4.1$ cat thread_cpu_affinity.cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+
+int main(int argc, const char** argv) {
+  constexpr unsigned num_threads = 4;
+  // A mutex ensures orderly access to std::cout from multiple threads.
+  std::mutex iomutex;
+  std::vector<std::thread> threads(num_threads);
+  for (unsigned i = 0; i < num_threads; ++i) {
+    threads[i] = std::thread([&iomutex, i] {
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
+      while (1) {
+        {
+          // Use a lexical scope and lock_guard to safely lock the mutex only
+          // for the duration of std::cout usage.
+          std::lock_guard<std::mutex> iolock(iomutex);
+          std::cout << "Thread #" << i << ": on CPU " << sched_getcpu() << "\n";
+        }
+
+        // Simulate important work done by the tread by sleeping for a bit...
+        std::this_thread::sleep_for(std::chrono::milliseconds(900));
+      }
+    });
+
+    // Create a cpu_set_t object representing a set of CPUs. Clear it and mark
+    // only CPU i as set.
+    //std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    //Until affinity is set, thread can run on any cpu
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(i, &cpuset);
+    int rc = pthread_setaffinity_np(threads[i].native_handle(),
+                                    sizeof(cpu_set_t), &cpuset);
+    if (rc != 0) {
+      std::cerr << "Error calling pthread_setaffinity_np: " << rc << "\n";
+    }
+  }
+
+  for (auto& t : threads) {
+    t.join();
+  }
+  return 0;
+}
+-bash-4.1$ cat visitor_pattern_1.cpp
+//Write CPP code here
+
+#include <iostream>
+using namespace std;
+
+class Stock
+{
+public:
+        virtual void accept(class Visitor *) = 0;
+
+};
+
+class Apple : public Stock
+{
+public:
+        /*virtual*/ void accept(Visitor *);
+        void buy()
+        {
+                cout << "Apple::buy\n";
+        }
+        void sell()
+        {
+                cout << "Apple::sell\n";
+        }
+
+};
+class Google : public Stock
+{
+public:
+        /*virtual*/ void accept(Visitor *);
+        void buy()
+        {
+                cout << "Google::buy\n";
+        }
+
+        void sell()
+        {
+                cout << "Google::sell\n";
+        }
+};
+
+class Visitor
+{
+public:
+        virtual void visit(Apple *) = 0;
+        virtual void visit(Google *) = 0;
+        //private:
+        static int m_num_apple, m_num_google;
+        void total_stocks()
+        {
+                cout << "m_num_apple " << m_num_apple
+                        << ", m_num_google " << m_num_google << '\n';
+        }
+};
+int Visitor::m_num_apple = 0;
+int Visitor::m_num_google = 0;
+class BuyVisitor : public Visitor
+{
+public:
+        BuyVisitor()
+        {
+                m_num_apple = m_num_google = 0;
+        }
+        /*virtual*/ void visit(Apple *r)
+        {
+                ++m_num_apple;
+                r->buy();
+                cout << "m_num_apple " << m_num_apple << endl;
+        }
+        /*virtual*/ void visit(Google *b)
+        {
+                ++m_num_google;
+                b->buy();
+                cout << " m_num_google " << m_num_google << '\n';
+        }
+};
+
+class SellVisitor : public Visitor
+{
+public:
+        /*virtual*/ void visit(Apple *a)
+        {
+
+                --m_num_apple;
+                a->sell();
+                cout << "m_num_apple " << m_num_apple << endl;
+        }
+        /*virtual*/ void visit(Google *g)
+        {
+                --m_num_google;
+                g->sell();
+                cout << "m_num_google " << m_num_google << endl;
+        }
+};
+
+void Apple::accept(Visitor *v)
+{
+        v->visit(this);
+}
+
+void Google::accept(Visitor *v)
+{
+        v->visit(this);
+}
+
+int main()
+{
+        Stock *set[] = { new Apple, new Google, new Google,
+                                        new Apple, new Apple, 0 };
+
+        BuyVisitor buy_operation;
+        SellVisitor sell_operation;
+        for (int i = 0; set[i]; i++)
+        {
+                set[i]->accept(&buy_operation);
+        }
+        buy_operation.total_stocks();
+
+        for (int i = 0; set[i]; i++)
+        {
+
+                set[i]->accept(&sell_operation);
+        }
+        sell_operation.total_stocks();
+}
+
+-bash-4.1$ cat crtp.cpp
+#include <iostream>
+
+using namespace std;
+
+template <class T>
+struct Base
+{
+    void interface()
+    {
+        static_cast<T*>(this)->implementation();
+    }
+};
+
+struct Derived : Base<Derived>
+{
+    void implementation()
+    {
+        cout<<"Hello Derived\n";
+    }
+};
+struct MoreDerived : Base<MoreDerived>
+{
+    void implementation()
+    {
+        cout<<"Hello MoreDerived\n";
+    }
+};
+
+
+int main()
+{
+  Derived *d = new Derived();
+  d->interface();
+  MoreDerived md;
+  md.interface();
+  return 0;
+}
+-bash-4.1$ cat vardiac.cpp
+#include <iostream>
+#include <string>
+//#include <boost/fusion/include/any.hpp>
+
+
+template<typename... Args>
+auto adder(Args... args)
+{
+  return (... + args);
+  // or (args + ...)
+}
+
+int main(){
+  long sum = adder(1, 2, 3, 8, 7);
+  std::cout << sum << std::endl; // 21
+
+  std::string s1 = "x", s2 = "aa", s3 = "bb", s4 = "yy";
+  std::string ssum = adder(s1, s2, s3, s4);
+
+  std::cout << ssum << std::endl; //xaabbyy
+}
+-bash-4.1$ cat crtp_1.cpp
+#include <iostream>
+
+template<typename T>
+class Foo {
+public:
+  template<typename P>
+  void f(const P& p) {
+    ((T*)this)->f(p);
+  }
+};
+
+class Bar : public Foo<Bar> {
+public:
+  template<typename P>
+  void f(const P& p) {
+    std::cout << p << std::endl;
+  }
+};
+
+#if 1
+int main()
+{
+  Foo<Bar> *fobj = new Bar;
+  fobj->f(1);
+  fobj->f("ABCD");
+  delete fobj;
+}
+#else
+int main() {
+  Bar bar;
+
+  Bar *pbar = &bar;
+  pbar -> f(1);
+  pbar -> f("pbar");
+
+  Foo<Bar> *pfoo = &bar;
+  pfoo -> f(1);
+  pfoo -> f("pfoo");
+}
+#endif
+-bash-4.1$ cat mixin.cpp
+#include <iostream>
+class Base{  };
+template<class T1,class T2>class Helper_notworking{
+    public: T2* operator->() { return static_cast<T2*>(this); }
+};
+template<class T1, class T2>
+class Helper: public T1 {
+public:
+    T2* operator->() {
+        return static_cast<T2*>(this);
+    }
+};
+
+class Derived1 : public Helper<Base,Derived1>{
+    public: void f1(){std::cout<<"D1\n";}
+};
+class Derived2 : public Helper<Base,Derived2> {
+    public: void f1(){std::cout<<"D2\n";}
+};
+class Derived3 : public Helper<Derived2,Derived3> {
+    public: void f1(){std::cout<<"D3\n";}
+};
+int main(){
+    Derived1 d1;  d1->f1();
+    Base b=d1;                    //#
+    //b.f1();
+    Derived3 d3;
+    d3->f1();
+    Derived2 d2=d3;
+    d2->f1();
+}
+-bash-4.1$ cat template_virtual_1.cpp
+#include <iostream>
+
+using namespace std;
+
+class A
+{
+public:
+  template<typename T>
+  void print(T a) {}
+};
+
+class B : public A
+{
+public:
+  template<typename T>
+  void print(T a)
+  {
+    cout<<a<<endl;
+  }
+};
+
+
+int main()
+{
+  A *a = new A;
+  a->print(12);
+  a->print("ABC");
+  return 0;
+}
+-bash-4.1$ cat uniqueptr.cpp
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Base {
+  public:
+    Base(int a)
+    {
+      cout<<"Base::"<<a<<endl;
+    }
+};
+
+class Derived : public Base {
+  public:
+    Derived(string&& s,int b):Base(b*2)
+    {
+      cout<<"Derived::"<<b<<endl;
+    }
+};
+int main()
+{
+  unique_ptr<Base> b = make_unique<Derived>("abcd",10);
+  return 0;
+}
+-bash-4.1$ cat auto_decltype.cpp
+#include <iostream>
+#include <math.h>
+
+
+auto new_func(auto num){
+return pow(num, 0.5) ;
+}
+
+template <typename T>
+auto my_func(T num) -> decltype(pow(num,0.5))
+{
+    return pow(num, 0.5) ;
+}
+
+int main(int argC, char* argV[]){
+
+float num(0) ;
+std::cout<<"Square root function !\nEnter a number: " ;
+std::cin>>num ;
+std::cout<<"Square root of "<<num<<" = "<<my_func(num)<<std::endl ;
+
+return 0 ;
+}
+
+-bash-4.1$ cat regex.cpp
+#include <iostream>
+#include <boost/regex.hpp>
+using namespace std;
+using namespace boost;
+
+
+int main  (int argc,char **argv) {
+    string subject(argv[1]);
+    string pattern = "[0-9]+";
+
+
+    const regex e(pattern);
+    if (regex_match(subject, e, match_partial)) {
+        cout << subject << " \tMATCHES\t " << pattern << endl;
+    } else {
+        cout << subject << " \tDOESN'T MATCH\t " << pattern << endl;
+    }
+
+
+    return 0;
+}
+-bash-4.1$ cat visitor_pattern.cpp
+#include <iostream>
+
+using namespace std;
+
+class Test
+{
+public:
+  template <typename T>
+  void handle(T& cInst)
+  {
+    cInst.print();
+  }
+};
+
+class Base
+{
+public:
+  virtual void visit(Test& cComp) = 0;
+  void print(){cout<<"Base"<<endl;}
+};
+
+template <class T>
+class Object : public Base
+{
+public:
+  virtual void visit(Test& cComp)
+  {
+    cComp.handle(*this);
+  }
+  void print(){cout<<"Object"<<endl;}
+};
+
+
+int main()
+{
+  Test c;
+  Base *obj = new Object<int>;
+  obj->visit(c);
+  return 0;
+}
+-bash-4.1$ cat regex_replace.cpp
+#include <iostream>
+#include <string>
+#include <boost/regex.hpp>
+
+int main(int argc,char **argv){
+  std::string str(argv[1]);
+  std::string newtext = "COMB";
+  boost::regex re("[A-Za-z]+.ELEC");
+  std::cout << str << std::endl;
+
+  std::string result = boost::regex_replace(str, re, newtext);
+  std::cout << result << std::endl;
+  return 0;
+}
