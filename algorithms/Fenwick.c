@@ -75,3 +75,90 @@ int main()
 	}
 	return 0;
 }
+
+/**/
+#include<bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+int search(int bit[], int a, int n)
+{
+    int ans = 0;
+    cout<<"For :"<<a<<" ";
+    while (a > 0) {
+        cout<<a<<" ";
+        ans += bit[a];
+        a -= a&-a;
+    }
+    cout<<" sum:"<<ans<<endl;
+    return ans;
+}
+
+void insert(int bit[], int a, int x, int n)
+{
+    /*Keep on finding right most set bit and add the the value to original number*/
+    cout<<"For :"<<x<<" ";
+    while (a <= n) {
+        cout<<a<<" ";
+        bit[a] += x;
+        a += a&-a;
+    }
+    cout<<endl;
+}
+void display(int bit[],int n)
+{
+    for(int i=1;i<=n;i++) {
+        cout<<bit[i]<<" ";
+    }
+    cout<<endl;
+}
+void solve()
+{
+    int n, q, i, a;
+    cin >> n >> q;
+    int bit[n + 1];
+    memset(bit, 0, sizeof(bit));
+    for (i = 1; i <= n; i++) {
+        cin >> a;
+        insert(bit, i, a, n);
+        display(bit,n);
+    }
+    while (q--) {
+        char c;
+        int p, q;
+        cin >> c;
+        switch (c)
+        {
+            case 'S':
+            cin >> p >> q;
+            cout << search(bit, q + 1, n) - search(bit, p, n) << "\n";
+            break;
+        
+            case 'G':
+            cin >> p >> q;
+            insert(bit, p + 1, q, n);
+            break;
+        
+            case 'T':
+            cin >> p >> q;
+            insert(bit, p + 1, -q, n);
+            break;
+    
+            default:
+                break;
+        }
+    }
+}
+
+signed main()
+{
+    int i=1;
+    int j=-i;
+    cout<<(i)<<" "<<(j)<<" "<<(i&j)<<endl;
+    cout<<bitset<32>(i)<<" "<<bitset<32>(j)<<" "<<bitset<32>(i&j)<<endl;
+    //ios_base::sync_with_stdio(0);
+    //cin.tie(0);cout.tie(0);
+    // int _t;cin>>_t;while(_t--)
+    solve();
+}
